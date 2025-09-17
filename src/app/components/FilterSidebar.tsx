@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 
 interface FilterProps {
@@ -27,6 +28,9 @@ const FilterSidebar: React.FC<FilterProps> = ({
   priceEnabled,
   setPriceEnabled,
 }) => {
+  // 🔹 función que lleva arriba de la página
+  const scrollTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
+
   const toggleColor = (color: string) => {
     setFilters((prev) => ({
       ...prev,
@@ -34,6 +38,7 @@ const FilterSidebar: React.FC<FilterProps> = ({
         ? prev.color.filter((c) => c !== color)
         : [...prev.color, color],
     }));
+    scrollTop();
   };
 
   const toggleTono = (tono: string) => {
@@ -43,6 +48,7 @@ const FilterSidebar: React.FC<FilterProps> = ({
         ? prev.tono.filter((t) => t !== tono)
         : [...prev.tono, tono],
     }));
+    scrollTop();
   };
 
   const toggleType = (type: string) => {
@@ -52,6 +58,7 @@ const FilterSidebar: React.FC<FilterProps> = ({
         ? prev.type.filter((t) => t !== type)
         : [...prev.type, type],
     }));
+    scrollTop();
   };
 
   const handlePriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -62,6 +69,7 @@ const FilterSidebar: React.FC<FilterProps> = ({
       ...prev,
       price: [0, value],
     }));
+    scrollTop();
   };
 
   const percentage = (filters.price[1] / maxPrice) * 100;
@@ -70,34 +78,53 @@ const FilterSidebar: React.FC<FilterProps> = ({
     <div
       style={{
         background: "#BFF205",
-        padding: "1.5rem",
-        width: "320px",
+        padding: "1rem",
+        width: "250px",
         color: "black",
-        fontSize: "2rem",
+        fontSize: "0.9rem",
         borderRadius: "12px",
         boxShadow: "0 4px 8px rgba(0,0,0,0.2)",
         margin: "1rem",
+        position: "sticky",
+        top: "1rem",
+        alignSelf: "flex-start",
       }}
     >
-      <h3 style={{ fontSize: "2.2rem", fontWeight: "bold", marginBottom: "1rem" }}>
+      <h3
+        style={{
+          fontSize: "1.2rem",
+          fontWeight: "bold",
+          marginBottom: "0.8rem",
+        }}
+      >
         Filtros
       </h3>
 
-      {/* Tipo - NUEVO: va primero */}
-      <div style={{ marginBottom: "1.5rem" }}>
-        <h4 style={{ fontSize: "1.8rem", fontWeight: "bold", marginBottom: "0.5rem" }}>
+      {/* Tipo */}
+      <div style={{ marginBottom: "1rem" }}>
+        <h4
+          style={{
+            fontSize: "1rem",
+            fontWeight: "bold",
+            marginBottom: "0.3rem",
+          }}
+        >
           Tipo
         </h4>
         {["Camisetas", "Sudaderas", "Gorras"].map((t) => (
           <label
             key={t}
-            style={{ display: "block", marginBottom: "0.6rem", fontSize: "1.5rem" }}
+            style={{
+              display: "block",
+              marginBottom: "0.4rem",
+              fontSize: "0.9rem",
+            }}
           >
             <input
               type="checkbox"
               checked={filters.type.includes(t)}
               onChange={() => toggleType(t)}
-              style={{ width: "22px", height: "22px", marginRight: "10px" }}
+              style={{ width: "14px", height: "14px", marginRight: "6px" }}
             />
             {t}
           </label>
@@ -105,20 +132,30 @@ const FilterSidebar: React.FC<FilterProps> = ({
       </div>
 
       {/* Tono */}
-      <div style={{ marginBottom: "1.5rem" }}>
-        <h4 style={{ fontSize: "1.8rem", fontWeight: "bold", marginBottom: "0.5rem" }}>
+      <div style={{ marginBottom: "1rem" }}>
+        <h4
+          style={{
+            fontSize: "1rem",
+            fontWeight: "bold",
+            marginBottom: "0.3rem",
+          }}
+        >
           Tono
         </h4>
         {["Claro", "Oscuro"].map((t) => (
           <label
             key={t}
-            style={{ display: "block", marginBottom: "0.6rem", fontSize: "1.5rem" }}
+            style={{
+              display: "block",
+              marginBottom: "0.4rem",
+              fontSize: "0.9rem",
+            }}
           >
             <input
               type="checkbox"
               checked={filters.tono.includes(t)}
               onChange={() => toggleTono(t)}
-              style={{ width: "22px", height: "22px", marginRight: "10px" }}
+              style={{ width: "14px", height: "14px", marginRight: "6px" }}
             />
             {t}
           </label>
@@ -126,30 +163,48 @@ const FilterSidebar: React.FC<FilterProps> = ({
       </div>
 
       {/* Colores */}
-      <div style={{ marginBottom: "1.5rem" }}>
-        <h4 style={{ fontSize: "1.8rem", fontWeight: "bold", marginBottom: "0.5rem" }}>
+      <div style={{ marginBottom: "1rem" }}>
+        <h4
+          style={{
+            fontSize: "1rem",
+            fontWeight: "bold",
+            marginBottom: "0.3rem",
+          }}
+        >
           Colores
         </h4>
-        {["Blanco", "Azul", "Amarillo", "Verde", "Morado", "Café", "Rojo"].map((c) => (
-          <label
-            key={c}
-            style={{ display: "block", marginBottom: "0.6rem", fontSize: "1.5rem" }}
-          >
-            <input
-              type="checkbox"
-              checked={filters.color.includes(c)}
-              onChange={() => toggleColor(c)}
-              style={{ width: "22px", height: "22px", marginRight: "10px" }}
-            />
-            {c}
-          </label>
-        ))}
+        {["Blanco", "Azul", "Amarillo", "Verde", "Morado", "Café", "Rojo"].map(
+          (c) => (
+            <label
+              key={c}
+              style={{
+                display: "block",
+                marginBottom: "0.4rem",
+                fontSize: "0.9rem",
+              }}
+            >
+              <input
+                type="checkbox"
+                checked={filters.color.includes(c)}
+                onChange={() => toggleColor(c)}
+                style={{ width: "14px", height: "14px", marginRight: "6px" }}
+              />
+              {c}
+            </label>
+          )
+        )}
       </div>
 
-      {/* Barra de precios */}
-      <div style={{ marginBottom: "1.5rem" }}>
-        <h4 style={{ fontSize: "1.8rem", fontWeight: "bold", marginBottom: "0.8rem" }}>
-          Precio máximo
+      {/* Precio */}
+      <div style={{ marginBottom: "1rem" }}>
+        <h4
+          style={{
+            fontSize: "1rem",
+            fontWeight: "bold",
+            marginBottom: "0.3rem",
+          }}
+        >
+          Precio
         </h4>
 
         <input
@@ -161,12 +216,12 @@ const FilterSidebar: React.FC<FilterProps> = ({
           style={{
             width: "100%",
             appearance: "none",
-            height: "12px",
+            height: "6px",
             borderRadius: "6px",
             outline: "none",
             cursor: "pointer",
             opacity: priceEnabled ? 1 : 0.5,
-            border: "2px solid #B00000",
+            border: "1px solid #B00000",
             background: `linear-gradient(to right, #D91604 0%, #D91604 ${percentage}%, white ${percentage}%, white 100%)`,
           }}
         />
@@ -175,42 +230,50 @@ const FilterSidebar: React.FC<FilterProps> = ({
             input[type="range"]::-webkit-slider-thumb {
               -webkit-appearance: none;
               appearance: none;
-              width: 24px;
-              height: 24px;
+              width: 14px;
+              height: 14px;
               border-radius: 50%;
               background: #D91604;
-              border: 2px solid #B00000;
+              border: 1px solid #B00000;
               cursor: pointer;
-              margin-top: -6px; /* centra la bola */
+              margin-top: -4px;
             }
             input[type="range"]::-moz-range-thumb {
-              width: 24px;
-              height: 24px;
+              width: 14px;
+              height: 14px;
               border-radius: 50%;
               background: #D91604;
-              border: 2px solid #B00000;
-              cursor: pointer;
-            }
-            input[type="range"]::-ms-thumb {
-              width: 24px;
-              height: 24px;
-              border-radius: 50%;
-              background: #D91604;
-              border: 2px solid #B00000;
+              border: 1px solid #B00000;
               cursor: pointer;
             }
           `}
         </style>
 
-        {/* Indicador con casilla */}
-        <div style={{ display: "flex", alignItems: "center", marginTop: "0.8rem", paddingLeft: "12px" }}>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            marginTop: "0.5rem",
+            paddingLeft: "4px",
+          }}
+        >
           <input
             type="checkbox"
             checked={priceEnabled}
-            onChange={() => setPriceEnabled(!priceEnabled)}
-            style={{ width: "16px", height: "16px", marginRight: "10px" }}
+            onChange={() => {
+              setPriceEnabled(!priceEnabled);
+              scrollTop();
+            }}
+            style={{ width: "12px", height: "12px", marginRight: "6px" }}
           />
-          <p style={{ margin: 0, fontSize: "1.2rem", fontWeight: "normal", color: priceEnabled ? "black" : "#666" }}>
+          <p
+            style={{
+              margin: 0,
+              fontSize: "0.85rem",
+              fontWeight: "normal",
+              color: priceEnabled ? "black" : "#666",
+            }}
+          >
             USD {filters.price[1]}
           </p>
         </div>
