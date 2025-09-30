@@ -14,6 +14,7 @@ const Footer = () => {
             aria-label="Twitter"
             className="hover:scale-110 transition-transform"
           >
+            {/* Icono de Twitter */}
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="32"
@@ -37,6 +38,7 @@ const Footer = () => {
             aria-label="Facebook"
             className="hover:scale-110 transition-transform"
           >
+            {/* Icono de Facebook */}
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="32"
@@ -59,6 +61,7 @@ const Footer = () => {
             aria-label="YouTube"
             className="hover:scale-110 transition-transform"
           >
+            {/* Icono de YouTube */}
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="32"
@@ -82,6 +85,7 @@ const Footer = () => {
             aria-label="LinkedIn"
             className="hover:scale-110 transition-transform"
           >
+            {/* Icono de LinkedIn */}
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="32"
@@ -102,45 +106,45 @@ const Footer = () => {
           </a>
         </div>
 
-        {/* Use cases */}
+        {/* Casos de uso */}
         <div>
-          <h3 className="font-semibold text-lg mb-2">Use cases</h3>
+          <h3 className="font-semibold text-lg mb-2">Casos de uso</h3>
           <ul className="space-y-1">
-            <li>UI design</li>
-            <li>UX design</li>
-            <li>Wireframing</li>
-            <li>Diagramming</li>
-            <li>Brainstorming</li>
-            <li>Online whiteboard</li>
-            <li>Team collaboration</li>
+            <li>Diseño de UI</li>
+            <li>Diseño de UX</li>
+            <li>Wireframes</li>
+            <li>Diagramas</li>
+            <li>Lluvia de ideas</li>
+            <li>Pizarra en línea</li>
+            <li>Colaboración en equipo</li>
           </ul>
         </div>
 
-        {/* Explore */}
+        {/* Explorar */}
         <div>
-          <h3 className="font-semibold text-lg mb-2">Explore</h3>
+          <h3 className="font-semibold text-lg mb-2">Explorar</h3>
           <ul className="space-y-1">
-            <li>Design</li>
-            <li>Prototyping</li>
-            <li>Development features</li>
-            <li>Design systems</li>
-            <li>Collaboration features</li>
-            <li>Design process</li>
+            <li>Diseño</li>
+            <li>Prototipado</li>
+            <li>Funciones de desarrollo</li>
+            <li>Sistemas de diseño</li>
+            <li>Funciones de colaboración</li>
+            <li>Proceso de diseño</li>
             <li>FigJam</li>
           </ul>
         </div>
 
-        {/* Resources */}
+        {/* Recursos */}
         <div>
-          <h3 className="font-semibold text-lg mb-2">Resources</h3>
+          <h3 className="font-semibold text-lg mb-2">Recursos</h3>
           <ul className="space-y-1">
             <li>Blog</li>
-            <li>Best practices</li>
-            <li>Colors</li>
-            <li>Color wheel</li>
-            <li>Support</li>
-            <li>Developers</li>
-            <li>Resource library</li>
+            <li>Mejores prácticas</li>
+            <li>Colores</li>
+            <li>Círculo cromático</li>
+            <li>Soporte</li>
+            <li>Desarrolladores</li>
+            <li>Biblioteca de recursos</li>
           </ul>
         </div>
       </div>

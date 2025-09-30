@@ -12,11 +12,10 @@ const Navbar = () => {
   const buttons = [
     { name: "Inicio", path: "/" },
     { name: "Tienda", path: "/Tienda" },
-    { name: "Comunidad", path: "/comunidad" },
-    { name: "Recursos", path: "/recursos" },
-    { name: "Portafolio", path: "/portafolio" },
-    { name: "Contacto", path: "/contacto" },
-    { name: "Link", path: "/link" },
+    { name: "Comunidad", path: "/Comunidad" },
+    { name: "Recursos", path: "/Recursos" },
+    { name: "Portafolio", path: "/Portafolio" },
+    { name: "Contacto", path: "/Contacto" },
   ];
 
   const handleMouseEnter = () => {
@@ -41,11 +40,13 @@ const Navbar = () => {
             className="h-12 cursor-pointer"
           />
         </Link>
-        <img
-          src="https://digitalhub.fifa.com/transform/befe3a64-328b-453c-8b58-0faeb9103684/FIFA_Logo_White_Generic?&io=transform:fill&quality=75"
-          alt="Logo FIFA"
-          className="h-10"
-        />
+        <Link href="/">
+          <img
+            src="https://digitalhub.fifa.com/transform/befe3a64-328b-453c-8b58-0faeb9103684/FIFA_Logo_White_Generic?&io=transform:fill&quality=75"
+            alt="Logo FIFA"
+            className="h-10 cursor-pointer"
+          />
+        </Link>
       </div>
 
       {/* Botones de navegación */}
@@ -55,10 +56,11 @@ const Navbar = () => {
           return (
             <Link key={btn.name} href={btn.path}>
               <button
+                aria-current={isActive ? "page" : undefined}
                 className={`px-4 py-2 rounded-md transition-all duration-200 cursor-pointer
                   ${
                     isActive
-                      ? "bg-[#63F2CA] text-black"
+                      ? "bg-[#63F2CA] text-black hover:bg-[#7FF5D6]" // activo: #63F2CA, hover aclara a #7FF5D6
                       : "bg-[#3552F2] text-white hover:bg-[#6c82f7]"
                   }`}
               >
@@ -107,12 +109,29 @@ const Navbar = () => {
               onMouseLeave={handleMouseLeave}
             >
               <Link href="/IniciarSesion">
-                <button className="w-full text-left px-4 py-2 text-black hover:bg-[#63F2CA] border-b border-gray-300">
+                <button
+                  aria-current={pathname === "/IniciarSesion" ? "page" : undefined}
+                  className={`w-full text-left px-4 py-2 border-b border-gray-300 cursor-pointer transition-colors duration-150
+                    ${
+                      pathname === "/IniciarSesion"
+                        ? "bg-[#63F2CA] text-black hover:bg-[#B9FAEB]" // activo + hover claro
+                        : "text-black hover:bg-[#B9FAEB]" // hover también es #B9FAEB
+                    }`}
+                >
                   Iniciar sesión
                 </button>
               </Link>
+
               <Link href="/CrearCuenta">
-                <button className="w-full text-left px-4 py-2 text-black hover:bg-[#63F2CA]">
+                <button
+                  aria-current={pathname === "/CrearCuenta" ? "page" : undefined}
+                  className={`w-full text-left px-4 py-2 cursor-pointer transition-colors duration-150
+                    ${
+                      pathname === "/CrearCuenta"
+                        ? "bg-[#63F2CA] text-black hover:bg-[#B9FAEB]" // activo + hover claro
+                        : "text-black hover:bg-[#B9FAEB]" // hover también es #B9FAEB
+                    }`}
+                >
                   Crear cuenta
                 </button>
               </Link>
