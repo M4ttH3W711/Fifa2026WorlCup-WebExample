@@ -28,16 +28,20 @@ const Products: React.FC<ProductsProps> = ({ products, search }) => {
       {products.map((p) => (
         <div
           key={p.id}
-          className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition"
+          className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition flex flex-col"
         >
           <img
             src={p.image}
             alt={p.name}
-            className="w-full h-56 object-cover"
+            className="w-full h-70 object-cover cursor-pointer"
           />
-          <div className="p-4">
-            <h4 className="font-semibold text-lg">{p.name}</h4>
-            <p className="text-blue-600 font-bold mt-2">USD ${p.price}</p>
+          <div className="p-4 flex flex-col justify-between flex-grow">
+            <h4 className="font-semibold text-lg cursor-pointer hover:text-gray-800">{p.name}</h4>
+            <p
+              className="mt-3 self-start bg-green-600 text-white font-bold px-3 py-1 rounded-lg cursor-pointer hover:bg-green-500 transition"
+            >
+              USD ${p.price}
+            </p>
           </div>
         </div>
       ))}
