@@ -1,11 +1,11 @@
 "use client";
 
 import React, { useState } from "react";
-import Navbar from "../components/Navbar";
-import FilterSidebar from "../components/FilterSidebar";
-import Searchbar from "../components/Searchbar";
-import Products from "../components/Products";
-import { allProducts } from "../data/products";
+import Navbar from '@/app/components/Navbar'
+import FilterSidebar from "../../components/FilterSidebar";
+import Searchbar from "../../components/Searchbar";
+import Products from "../../components/Products";
+import { allProducts } from "../../data/products";
 
 const Page = () => {
   // 🔹 Calcular precio máximo de todos los productos
@@ -50,8 +50,6 @@ const Page = () => {
 
   return (
     <>
-      <Navbar />
-
       <div className="flex">
         {/* Sidebar */}
         <FilterSidebar

@@ -5,7 +5,6 @@ import Incomplete from '../components/Incomplete'
 const page = () => {
     return (
         <>
-            <Navbar />
             <Incomplete />
         </>
     )

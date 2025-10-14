@@ -28,7 +28,7 @@ const Products: React.FC<ProductsProps> = ({ products, search }) => {
       {products.map((p) => (
         <div
           key={p.id}
-          className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition flex flex-col"
+          className="bg-white rounded-2xl shadow-lg overflow-hidden transition transform hover:scale-[1.02] hover:shadow-xl border-2 border-transparent hover:border-[#117318] flex flex-col"
         >
           <img
             src={p.image}
@@ -36,7 +36,9 @@ const Products: React.FC<ProductsProps> = ({ products, search }) => {
             className="w-full h-70 object-cover cursor-pointer"
           />
           <div className="p-4 flex flex-col justify-between flex-grow">
-            <h4 className="font-semibold text-lg cursor-pointer hover:text-gray-800">{p.name}</h4>
+            <h4 className="font-semibold text-lg cursor-pointer hover:text-gray-800">
+              {p.name}
+            </h4>
             <p
               className="mt-3 self-start bg-green-600 text-white font-bold px-3 py-1 rounded-lg cursor-pointer hover:bg-green-500 transition"
             >

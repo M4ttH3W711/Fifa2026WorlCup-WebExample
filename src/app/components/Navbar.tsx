@@ -3,34 +3,70 @@
 import React, { useState, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import {
+  StoreIcon,
+  ProductsIcon,
+  CartIcon,
+  FavoritesIcon,
+  ProfileIcon,
+} from "./Icons";
+
+interface SubButton {
+  name: string;
+  path: string;
+  icon: React.FC<{ size?: number; color?: string }>;
+}
+
+interface Button {
+  name: string;
+  path: string;
+  icon?: React.FC<{ size?: number; color?: string }>;
+  submenu?: SubButton[];
+}
 
 const Navbar = () => {
   const pathname = usePathname();
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [openMenu, setOpenMenu] = useState<string | null>(null);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  const buttons = [
+  const buttons: Button[] = [
     { name: "Inicio", path: "/" },
-    { name: "Tienda", path: "/Tienda" },
     { name: "Comunidad", path: "/Comunidad" },
     { name: "Recursos", path: "/Recursos" },
     { name: "Portafolio", path: "/Portafolio" },
     { name: "Contacto", path: "/Contacto" },
+    {
+      name: "Tienda",
+      path: "/Tienda/Productos",
+      icon: StoreIcon,
+      submenu: [
+        { name: "Productos", path: "/Tienda/Productos", icon: ProductsIcon },
+        { name: "Carrito", path: "/Tienda/Carrito", icon: CartIcon },
+        { name: "Favoritos", path: "/Tienda/Favoritos", icon: FavoritesIcon },
+      ],
+    },
+    {
+      name: "Perfil",
+      path: "/IniciarSesion",
+      icon: ProfileIcon,
+      submenu: [
+        { name: "Iniciar sesión", path: "/IniciarSesion", icon: ProfileIcon },
+        { name: "Crear cuenta", path: "/CrearCuenta", icon: ProfileIcon },
+      ],
+    },
   ];
 
-  const handleMouseEnter = () => {
+  const handleMenuEnter = (menu: string) => {
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
-    setMenuOpen(true);
+    setOpenMenu(menu);
   };
 
-  const handleMouseLeave = () => {
-    timeoutRef.current = setTimeout(() => {
-      setMenuOpen(false);
-    }, 250);
+  const handleMenuLeave = () => {
+    timeoutRef.current = setTimeout(() => setOpenMenu(null), 250);
   };
 
   return (
-    <nav className="w-full bg-[#3552F2] p-4 flex items-center justify-between">
+    <nav className="sticky top-0 z-50 w-full bg-[#3552F2] p-4 flex items-center justify-between">
       {/* Logos */}
       <div className="flex items-center gap-4">
         <Link href="/" className="flex items-center">
@@ -49,95 +85,72 @@ const Navbar = () => {
         </Link>
       </div>
 
-      {/* Botones de navegación */}
+      {/* Botones */}
       <div className="flex items-center gap-3">
         {buttons.map((btn) => {
-          const isActive = pathname === btn.path;
+          const isActive =
+            pathname === btn.path ||
+            (btn.submenu && btn.submenu.some((sub) => sub.path === pathname));
+
+          const Icon = btn.icon;
+
           return (
-            <Link key={btn.name} href={btn.path}>
-              <button
-                aria-current={isActive ? "page" : undefined}
-                className={`px-4 py-2 rounded-md transition-all duration-200 cursor-pointer
-                  ${
-                    isActive
-                      ? "bg-[#63F2CA] text-black hover:bg-[#7FF5D6]" // activo: #63F2CA, hover aclara a #7FF5D6
-                      : "bg-[#3552F2] text-white hover:bg-[#6c82f7]"
-                  }`}
-              >
-                {btn.name}
-              </button>
-            </Link>
+            <div
+              key={btn.name}
+              className="relative"
+              onMouseEnter={() => btn.submenu && handleMenuEnter(btn.name)}
+              onMouseLeave={btn.submenu && handleMenuLeave}
+            >
+              <Link href={btn.path}>
+                <button
+                  aria-current={isActive ? "page" : undefined}
+                  className={`flex items-center gap-2 px-4 py-2 rounded-md cursor-pointer transition-all duration-200
+                    ${
+                      isActive
+                        ? "bg-[#63F2CA] text-black hover:bg-[#A0F7E5]" // activo + semiactivo
+                        : "bg-[#3552F2] text-white hover:bg-[#A0F7E5] hover:text-black" // inactivo + semiactivo
+                    }`}
+                >
+                  {Icon && <Icon color={isActive ? "black" : "currentColor"} size={20} />}
+                  {btn.name}
+                </button>
+              </Link>
+
+              {/* Submenús */}
+              {btn.submenu && openMenu === btn.name && (
+                <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg flex flex-col">
+                  {btn.submenu.map((sub) => {
+                    const isSubActive = pathname === sub.path;
+                    const SubIcon = sub.icon;
+
+                    return (
+                      <Link key={sub.name} href={sub.path}>
+                        <button
+                          aria-current={isSubActive ? "page" : undefined}
+                          className={`flex items-center gap-2 w-full text-left px-4 py-2 border-b border-gray-300 cursor-pointer transition-colors duration-150
+                            ${
+                              isSubActive
+                                ? "bg-[#63F2CA] text-black hover:bg-[#B9FAEB]"
+                                : "text-black hover:bg-[#B9FAEB]"
+                            }`}
+                        >
+                          {/* Muestra iconos solo en el menú TIENDA */}
+                          {btn.name === "Tienda" && SubIcon && (
+                            <SubIcon
+                              size={16}
+                              color={isSubActive ? "black" : "currentColor"}
+                            />
+                          )}
+                          {sub.name}
+                        </button>
+                      </Link>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
           );
         })}
-
-        {/* Botón de perfil */}
-        <div
-          className="relative"
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}
-        >
-          <button
-            className={`p-2 rounded-md cursor-pointer transition-all duration-200
-              ${
-                menuOpen
-                  ? "bg-[#6c82f7]"
-                  : "bg-[#3552F2] hover:bg-[#6c82f7]"
-              }`}
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="32"
-              height="32"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="#ffffff"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
-              <path d="M12 10m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
-              <path d="M6.168 18.849a4 4 0 0 1 3.832 -2.849h4a4 4 0 0 1 3.834 2.855" />
-            </svg>
-          </button>
-
-          {/* Menú desplegable */}
-          {menuOpen && (
-            <div
-              className="absolute right-0 mt-2 w-40 bg-white rounded-md shadow-lg flex flex-col"
-              onMouseEnter={handleMouseEnter}
-              onMouseLeave={handleMouseLeave}
-            >
-              <Link href="/IniciarSesion">
-                <button
-                  aria-current={pathname === "/IniciarSesion" ? "page" : undefined}
-                  className={`w-full text-left px-4 py-2 border-b border-gray-300 cursor-pointer transition-colors duration-150
-                    ${
-                      pathname === "/IniciarSesion"
-                        ? "bg-[#63F2CA] text-black hover:bg-[#B9FAEB]" // activo + hover claro
-                        : "text-black hover:bg-[#B9FAEB]" // hover también es #B9FAEB
-                    }`}
-                >
-                  Iniciar sesión
-                </button>
-              </Link>
-
-              <Link href="/CrearCuenta">
-                <button
-                  aria-current={pathname === "/CrearCuenta" ? "page" : undefined}
-                  className={`w-full text-left px-4 py-2 cursor-pointer transition-colors duration-150
-                    ${
-                      pathname === "/CrearCuenta"
-                        ? "bg-[#63F2CA] text-black hover:bg-[#B9FAEB]" // activo + hover claro
-                        : "text-black hover:bg-[#B9FAEB]" // hover también es #B9FAEB
-                    }`}
-                >
-                  Crear cuenta
-                </button>
-              </Link>
-            </div>
-          )}
-        </div>
       </div>
     </nav>
   );
