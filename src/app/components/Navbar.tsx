@@ -7,7 +7,7 @@ import {
   StoreIcon,
   ProductsIcon,
   CartIcon,
-  FavoritesIcon,
+  FavsIcon,
   ProfileIcon,
 } from "./Icons";
 
@@ -42,7 +42,7 @@ const Navbar = () => {
       submenu: [
         { name: "Productos", path: "/Tienda/Productos", icon: ProductsIcon },
         { name: "Carrito", path: "/Tienda/Carrito", icon: CartIcon },
-        { name: "Favoritos", path: "/Tienda/Favoritos", icon: FavoritesIcon },
+        { name: "Favoritos", path: "/Tienda/Favoritos", icon: FavsIcon },
       ],
     },
     {
@@ -66,7 +66,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="sticky top-0 z-50 w-full bg-[#3552F2] p-4 flex items-center justify-between">
+    <nav className="z-50 w-full bg-[#3552F2] p-4 flex items-center justify-between">
       {/* Logos */}
       <div className="flex items-center gap-4">
         <Link href="/" className="flex items-center">
@@ -107,8 +107,8 @@ const Navbar = () => {
                   className={`flex items-center gap-2 px-4 py-2 rounded-md cursor-pointer transition-all duration-200
                     ${
                       isActive
-                        ? "bg-[#63F2CA] text-black hover:bg-[#A0F7E5]" // activo + semiactivo
-                        : "bg-[#3552F2] text-white hover:bg-[#A0F7E5] hover:text-black" // inactivo + semiactivo
+                        ? "bg-[#63F2CA] text-black hover:bg-[#A0F7E5]"
+                        : "bg-[#3552F2] text-white hover:bg-[#A0F7E5] hover:text-black"
                     }`}
                 >
                   {Icon && <Icon color={isActive ? "black" : "currentColor"} size={20} />}
@@ -134,7 +134,6 @@ const Navbar = () => {
                                 : "text-black hover:bg-[#B9FAEB]"
                             }`}
                         >
-                          {/* Muestra iconos solo en el menú TIENDA */}
                           {btn.name === "Tienda" && SubIcon && (
                             <SubIcon
                               size={16}

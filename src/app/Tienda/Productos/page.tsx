@@ -1,27 +1,26 @@
 "use client";
 
 import React, { useState } from "react";
-import Navbar from '@/app/components/Navbar'
-import FilterSidebar from "../../components/FilterSidebar";
+import Navbar from "@/app/components/Navbar";
+import FilterSidebar, { Filters } from "../../components/FilterSidebar";
 import Searchbar from "../../components/Searchbar";
 import Products from "../../components/Products";
 import { allProducts } from "../../data/products";
 
 const Page = () => {
-  // 🔹 Calcular precio máximo de todos los productos
   const maxPrice = Math.max(...allProducts.map((p) => p.price));
+  const minPrice = Math.min(...allProducts.map((p) => p.price)); // 🔹 Nuevo
 
   const [search, setSearch] = useState("");
-  const [filters, setFilters] = useState({
-    tono: [] as string[],
-    color: [] as string[],
-    type: [] as string[], // ✅ agregado para evitar fallos
-    price: [0, maxPrice] as [number, number],
+  const [filters, setFilters] = useState<Filters>({
+    tamaño: [],
+    color: [],
+    type: [],
+    price: [minPrice, maxPrice], // 🔹 Inicia con el rango real
   });
 
   const [priceEnabled, setPriceEnabled] = useState(false);
 
-  // 🔹 Filtrado dinámico
   const filteredProducts = allProducts.filter((product) => {
     const query = search.toLowerCase();
 
@@ -35,40 +34,41 @@ const Page = () => {
       filters.color.length === 0 ||
       filters.color.some((c) => product.color.includes(c));
 
-    const matchesTono =
-      filters.tono.length === 0 || filters.tono.includes(product.tono);
+    const matchesTamaño =
+      filters.tamaño.length === 0 || filters.tamaño.includes(product.tamaño);
 
     const matchesType =
-      filters.type.length === 0 || filters.type.includes(product.type); // ✅ agregado
+      filters.type.length === 0 || filters.type.includes(product.type);
 
     const matchesPrice = !priceEnabled
       ? true
       : product.price >= filters.price[0] && product.price <= filters.price[1];
 
-    return matchesSearch && matchesColor && matchesTono && matchesType && matchesPrice;
+    return (
+      matchesSearch &&
+      matchesColor &&
+      matchesTamaño &&
+      matchesType &&
+      matchesPrice
+    );
   });
 
   return (
-    <>
-      <div className="flex">
-        {/* Sidebar */}
-        <FilterSidebar
-          filters={filters}
-          setFilters={setFilters}
-          maxPrice={maxPrice}
-          priceEnabled={priceEnabled}
-          setPriceEnabled={setPriceEnabled}
-        />
+    <div className="flex">
+      <FilterSidebar
+        filters={filters}
+        setFilters={setFilters}
+        maxPrice={maxPrice}
+        priceEnabled={priceEnabled}
+        setPriceEnabled={setPriceEnabled}
+        minPrice={minPrice} // 🔹 Nuevo prop
+      />
 
-        <div className="flex-1">
-          {/* Barra de búsqueda */}
-          <Searchbar search={search} setSearch={setSearch} />
-
-          {/* Productos */}
-          <Products products={filteredProducts} search={search} />
-        </div>
+      <div className="flex-1">
+        <Searchbar search={search} setSearch={setSearch} />
+        <Products products={filteredProducts} search={search} />
       </div>
-    </>
+    </div>
   );
 };
 

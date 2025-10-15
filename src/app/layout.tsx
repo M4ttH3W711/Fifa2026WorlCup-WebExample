@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Footer from "./components/Footer";
-import Navbar from "./components/Navbar"; // <- Importamos Navbar
+import Navbar from "./components/Navbar";
+import { StoreProvider } from "./context/StoreContext"; // <- Importar el contexto
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -30,14 +31,16 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col min-h-screen`}
         cz-shortcut-listen="true"
       >
-        {/* Navbar visible en todas las páginas */}
-        <Navbar />
+        <StoreProvider>
+          {/* Navbar visible en todas las páginas */}
+          <Navbar />
 
-        {/* Contenido principal */}
-        <main className="flex-grow">{children}</main>
+          {/* Contenido principal */}
+          <main className="flex-grow">{children}</main>
 
-        {/* Footer al final */}
-        <Footer />
+          {/* Footer al final */}
+          <Footer />
+        </StoreProvider>
       </body>
     </html>
   );

@@ -5,7 +5,7 @@ import Link from "next/link";
 import {
   ProductsIcon,
   CartIcon,
-  FavoritesIcon,
+  FavsIcon,
 } from "./Icons";
 
 type MenuType = "store" | "profile";
@@ -47,7 +47,7 @@ const SubMenus: React.FC<SubMenusProps> = ({ type, pathname }) => {
             className={`flex items-center gap-2 w-full text-left px-4 py-2 cursor-pointer transition-colors duration-150
               ${pathname === "/Tienda/Favoritos" ? "bg-[#63F2CA] text-black hover:bg-[#B9FAEB]" : "text-black hover:bg-[#B9FAEB]"}`}
           >
-            <FavoritesIcon />
+            <FavsIcon />
             Favoritos
           </button>
         </Link>
